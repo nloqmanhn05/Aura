@@ -368,7 +368,7 @@ input:focus-visible {
 .logo {
   width: clamp(72px, 8vw, 96px);
   height: auto;
-  aspect-ratio: 255 / 286;
+  aspect-ratio: 617 / 555;
   margin: 0;
   display: block;
 }
