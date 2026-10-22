@@ -1,0 +1,1370 @@
+/* ==========================================================================
+   Budget Rule Finder - Stylesheet (Material 3 Spacing System & Tokens)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand & neutrals */
+  --lime-500: #C8FF00;
+  --lime-400: #D6FF4D;
+  --lime-100: #F1FFB8;
+  --ink-950: #0E0E0E;
+  --ink-900: #1A1A1A;
+  --ink-800: #2B2B2B;
+  --ink-600: #4A4A4A;
+  --gray-500: #8C8C8C;
+
+  /* Semantic aliases */
+  --text: #FFFFFF;
+  --muted: #A0A0A0;
+  --on-lime: #0E0E0E;
+  --fade-card: linear-gradient(180deg, var(--ink-800) 0%, rgba(43, 43, 43, 0.4) 100%);
+
+  /* Budget slice colors */
+  --c1: var(--lime-500);
+  /* Needs */
+  --c2: var(--lime-100);
+  /* Wants */
+  --c3: var(--gray-500);
+  /* Savings / Debt */
+  --c4: #FFFFFF;
+  /* Buffer / Giving */
+
+  /* Fluid type scale (320px -> 1440px) */
+  --fs-display-xl: clamp(2.25rem, 1.6rem + 2.9vw, 4rem);
+  --fs-display-l: clamp(1.75rem, 1.2rem + 2.5vw, 3.5rem);
+  --fs-title-m: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
+  --fs-title-s: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
+  --fs-body-m: clamp(0.875rem, 0.85rem + 0.12vw, 1rem);
+  --fs-body-s: clamp(0.75rem, 0.73rem + 0.1vw, 0.875rem);
+  --fs-caption: clamp(0.6875rem, 0.67rem + 0.05vw, 0.75rem);
+
+  /* Fluid spacing base units */
+  --space-1: clamp(4px, 0.3vw + 2px, 6px);
+  --space-2: clamp(8px, 0.5vw + 5px, 12px);
+  --space-3: clamp(12px, 0.7vw + 8px, 16px);
+  --space-4: clamp(16px, 1vw + 10px, 24px);
+  --space-5: clamp(24px, 1.5vw + 14px, 40px);
+  --space-6: clamp(32px, 2.5vw + 16px, 64px);
+
+  /* Material 3 Spacing System */
+  /* Screen edge margins (24dp default) */
+  --screen-margin-h: 24px;
+  --screen-margin-desktop: clamp(24px, 4vw, 48px);
+
+  /* Container Padding Tokens (inner bounds) */
+  --pad-card-v: var(--space-4);
+  --pad-card-h: var(--space-4);
+  --pad-btn-v: var(--space-3);
+  --pad-btn-h: var(--space-4);
+  --pad-pill-v: var(--space-2);
+  --pad-pill-h: var(--space-4);
+
+  /* Gap Tokens (uniform inter-element spacing) */
+  --gap-screen: var(--space-5);
+  /* Vertical separation between screen blocks */
+  --gap-section: var(--space-4);
+  /* Spacing inside major sections */
+  --gap-stack: var(--space-3);
+  /* Spacing between vertical card stacks */
+  --gap-tight: var(--space-2);
+  /* Dense items & sub-elements */
+  --gap-micro: var(--space-1);
+  /* Tightly coupled items (segmented bar) */
+
+  /* Element-to-Element Micro Gaps */
+  --gap-icon-label: 8px;
+  /* Inline icon-to-label spacing */
+  --gap-button-icon: 8px;
+  /* Button icon-to-text spacing */
+
+  /* Shape & sizing */
+  --r-pill: 999px;
+  --r-card: clamp(20px, 2vw + 12px, 32px);
+  --btn-circle: max(44px, clamp(36px, 2vw + 28px, 48px));
+  /* 44px minimum hit target */
+  --option-h: clamp(56px, 3vw + 44px, 76px);
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Typography (Zero Margins, Gaps Govern Rhythm)
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink-950);
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: var(--fs-body-m);
+  line-height: 1.45;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-display-l);
+  line-height: 1.06;
+}
+
+h2 {
+  font-size: var(--fs-title-m);
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   3. Screen Layout (24dp Screen Margin, Padding & Gap Priority)
+   -------------------------------------------------------------------------- */
+.app {
+  width: 100%;
+  max-width: 560px;
+  min-height: 100dvh;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-screen);
+  padding:
+    max(24px, env(safe-area-inset-top)) max(var(--screen-margin-h), env(safe-area-inset-right)) max(var(--space-5), env(safe-area-inset-bottom)) max(var(--screen-margin-h), env(safe-area-inset-left));
+}
+
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-screen);
+  justify-content: space-between;
+}
+
+.quiz-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+}
+
+.split {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-screen);
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-stack);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+}
+
+.note {
+  font-size: var(--fs-caption);
+  color: var(--muted);
+  text-align: center;
+  margin: 0;
+  padding-top: var(--gap-tight);
+}
+
+/* --------------------------------------------------------------------------
+   4. Icon Typography
+   -------------------------------------------------------------------------- */
+.ic {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.25em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. Buttons & Controls (Uniform Padding & Button-to-Icon Gaps)
+   -------------------------------------------------------------------------- */
+.btn {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: var(--pad-btn-v) var(--pad-btn-h);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  background: var(--lime-500);
+  color: var(--on-lime);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-button-icon);
+  transition: background 0.18s, opacity 0.25s, transform 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--ink-600);
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--lime-500);
+  outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  outline-color: var(--text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(:disabled):not(.ghost):hover {
+    background: var(--lime-400);
+  }
+
+  .btn.ghost:hover,
+  .rule:not(.on):hover {
+    border-color: var(--gray-500);
+  }
+
+  .opt:not(.on):hover {
+    background: var(--ink-800);
+    border-color: var(--gray-500);
+  }
+}
+
+.btn:active,
+.opt:active,
+.rule:active,
+.back:active {
+  transform: scale(0.97);
+}
+
+/* --------------------------------------------------------------------------
+   6. Top Bar & Segmented Progress
+   -------------------------------------------------------------------------- */
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-stack);
+  margin: 0 0 var(--gap-tight) 0;
+}
+
+.back {
+  flex: none;
+  width: var(--btn-circle);
+  height: var(--btn-circle);
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink-800);
+  color: var(--text);
+  font-size: 1.125rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+
+.bar {
+  flex: 1;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--gap-micro);
+}
+
+.bar i {
+  height: clamp(4px, 0.3vw + 2px, 6px);
+  border-radius: var(--r-pill);
+  background: var(--ink-800);
+  transition: background 0.24s;
+}
+
+.bar i.on {
+  background: var(--lime-500);
+}
+
+.bar i.now {
+  transform-origin: left;
+  animation: grow 0.24s var(--ease);
+}
+
+.count {
+  min-width: 2.5em;
+  text-align: right;
+  font-size: var(--fs-body-s);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   7. Welcome Screen / Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-section);
+}
+
+.logo {
+  width: clamp(72px, 8vw, 96px);
+  height: auto;
+  aspect-ratio: 255 / 286;
+  margin: 0;
+  display: block;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+}
+
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-icon-label);
+  font-size: var(--fs-body-s);
+  color: var(--muted);
+}
+
+.steps li .ic {
+  color: var(--lime-500);
+  font-size: 1.25em;
+}
+
+.q-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  background: var(--ink-900);
+  color: var(--lime-500);
+  margin: 0;
+}
+
+.q-ic .ic {
+  font-size: 24px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Quiz Options (Flat Design - No Gradient, No Shadow)
+   -------------------------------------------------------------------------- */
+.opts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Fixed phone-size values (no vw scaling) so the radio group looks the same on desktop */
+.opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-icon-label);
+  min-height: 56px;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  border: 1.5px solid var(--ink-800);
+  border-radius: var(--r-pill);
+  background: var(--ink-900);
+  color: var(--text);
+  font-family: inherit;
+  font-weight: 600;
+  text-align: left;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background 0.18s ease-out, color 0.18s ease-out, border-color 0.18s, transform 0.15s;
+}
+
+/* Radio tick icon indicator (Material Symbols 'check', no SVG) */
+.tick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-600);
+  background: transparent;
+  color: transparent;
+  font-size: 18px;
+  box-shadow: none;
+  transition: all 0.18s ease-out;
+}
+
+.opt.on {
+  background: var(--lime-500);
+  color: var(--on-lime);
+  border-color: var(--lime-500);
+  box-shadow: none;
+}
+
+.opt.on .tick {
+  border-color: var(--on-lime);
+  background: var(--on-lime);
+  color: var(--lime-500);
+  animation: check 0.18s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   9. Result: Rationale & Rule Cards
+   -------------------------------------------------------------------------- */
+.why {
+  background: var(--ink-900);
+  border-left: 3px solid var(--lime-500);
+  border-radius: var(--space-3);
+  padding: var(--pad-card-v) var(--pad-card-h);
+  font-size: var(--fs-body-m);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap-icon-label);
+  margin: 0;
+}
+
+.why .ic {
+  color: var(--lime-500);
+  font-size: 1.25em;
+  margin-top: 2px;
+  flex: none;
+}
+
+.rule-info {
+  background: var(--ink-900);
+  border-left: 3px solid var(--lime-500);
+  border-radius: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-body-s);
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap-icon-label);
+  margin: 0;
+  color: var(--muted);
+}
+
+.rule-info .ic {
+  color: var(--lime-500);
+  font-size: 1.25em;
+  margin-top: 1px;
+  flex: none;
+}
+
+.rule {
+  width: 100%;
+  margin: 0;
+  padding: var(--pad-card-v) var(--pad-card-h);
+  border: 2px solid transparent;
+  border-radius: var(--r-card);
+  background: var(--fade-card);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+  transition: border-color 0.25s, transform 0.15s;
+}
+
+.rule.on {
+  border-color: var(--lime-500);
+}
+
+.rule h3 {
+  margin: 0;
+  font-size: var(--fs-display-l);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rule p {
+  margin: 0;
+  font-size: var(--fs-body-s);
+}
+
+.badge {
+  display: inline-flex;
+  align-self: flex-end;
+  align-items: center;
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: var(--r-pill);
+  background: var(--lime-500);
+  color: var(--on-lime);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+}
+
+.seg {
+  display: flex;
+  gap: var(--gap-micro);
+  height: 10px;
+  margin: 0;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.seg i {
+  display: block;
+  height: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-micro) var(--gap-stack);
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--muted);
+}
+
+.chips span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chips .dot {
+  width: 8px;
+  height: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   10. Calculator
+   -------------------------------------------------------------------------- */
+label.in {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+  margin: 0;
+}
+
+label.in span {
+  display: block;
+  margin: 0 0 0 var(--space-2);
+  font-size: var(--fs-body-s);
+  color: var(--muted);
+}
+
+.amt {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-icon-label);
+  padding: var(--pad-pill-v) var(--pad-pill-h);
+  border: 1.5px solid var(--ink-600);
+  border-radius: 24px;
+  background: var(--ink-900);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.amt:focus-within {
+  border-color: var(--lime-500);
+  box-shadow: 0 0 0 4px rgba(200, 255, 0, 0.2);
+}
+
+.amt b {
+  font-size: var(--fs-title-m);
+  color: var(--lime-500);
+}
+
+.amt input {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--fs-display-l);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+}
+
+.amt input:focus,
+.amt input:focus-visible {
+  outline: none;
+}
+
+.amt input::placeholder {
+  color: var(--muted);
+  opacity: 0.5;
+  font-weight: 600;
+}
+
+.detail {
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--pad-card-v) var(--pad-card-h);
+  gap: var(--gap-stack);
+  border-radius: var(--r-card);
+  background: var(--fade-card);
+}
+
+.detail-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+}
+
+.detail-head h2 {
+  flex: none;
+  margin: 0;
+}
+
+.breakdown-grid {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.row {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--gap-stack);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--ink-600);
+}
+
+.row:first-of-type {
+  border-top: 0;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.tile {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--ink-900);
+  border: 1px solid var(--ink-600);
+  color: var(--tile, var(--lime-500));
+  display: grid;
+  place-items: center;
+}
+
+.tile .ic {
+  font-size: 22px;
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--gap-tight);
+  padding: var(--pad-card-v) var(--pad-card-h);
+  color: var(--muted);
+}
+
+
+.empty p {
+  margin: 0;
+  font-size: var(--fs-body-s);
+}
+
+.row .n {
+  flex: 1;
+  min-width: 0;
+}
+
+.row .n b {
+  display: block;
+  font-size: var(--fs-title-s);
+}
+
+.row .n span {
+  display: block;
+  font-size: var(--fs-body-s);
+  color: var(--muted);
+  overflow-wrap: break-word;
+}
+
+.row .v {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  justify-self: end;
+}
+
+.row .v b {
+  display: block;
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+  line-height: 1.2;
+}
+
+.row .v span {
+  font-size: var(--fs-caption);
+  color: var(--lime-500);
+}
+
+/* --------------------------------------------------------------------------
+   11. Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+
+/* lg+: compact two-panel desktop — all screens fit in viewport without scrolling */
+@media (min-width: 1024px) {
+  :root {
+    --fs-display-l: 1.85rem;
+    --fs-title-m: 1.25rem;
+    --fs-title-s: 1rem;
+    --fs-body-m: 0.875rem;
+    --fs-body-s: 0.8125rem;
+    --fs-caption: 0.75rem;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 28px;
+    --gap-screen: 16px;
+    --gap-section: 12px;
+    --gap-stack: 10px;
+    --gap-tight: 8px;
+    --pad-card-v: 12px;
+    --pad-card-h: 16px;
+    --pad-btn-v: 10px;
+    --pad-btn-h: 16px;
+  }
+
+  .app {
+    max-width: 1140px;
+    height: 100vh;
+    min-height: 100vh;
+    padding-top: 24px;
+    padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
+    padding-bottom: clamp(12px, 2.5vh, 24px);
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto;
+    margin-inline: auto;
+  }
+
+  .btn {
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 0.9375rem;
+  }
+
+  /* Screen 1: Welcome */
+  .welcome {
+    max-width: 480px;
+    width: 100%;
+    margin: auto;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .welcome .hero {
+    gap: 12px;
+  }
+
+  .welcome .logo {
+    width: 56px;
+  }
+
+  .welcome h1 {
+    font-size: 1.85rem;
+    line-height: 1.1;
+  }
+
+  .welcome .steps {
+    gap: 8px;
+  }
+
+  .welcome .steps li {
+    font-size: 0.8125rem;
+  }
+
+  /* Screen 2: Quiz */
+  .quiz-wrap {
+    flex: none;
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .quiz-wrap .top {
+    width: 100%;
+    margin: 0;
+  }
+
+  .split-quiz {
+    flex: none;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    align-items: start;
+    gap: var(--space-5);
+    width: 100%;
+    margin: 0;
+  }
+
+  .split-quiz .intro {
+    position: static;
+    gap: 10px;
+  }
+
+  .split-quiz .intro h2 {
+    font-size: 1.35rem;
+    line-height: 1.15;
+  }
+
+  .split-quiz .q-ic {
+    width: 36px;
+    height: 36px;
+  }
+
+  .split-quiz .q-ic .ic {
+    font-size: 20px;
+  }
+
+  .split-quiz .panel {
+    width: 100%;
+    max-width: 500px;
+    gap: 10px;
+  }
+
+  .split-quiz .spacer {
+    display: none;
+  }
+
+  /* General two-panel split */
+  .split {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    align-items: start;
+    gap: var(--space-5);
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 0;
+  }
+
+  .intro {
+    position: static;
+    gap: 10px;
+  }
+
+  .intro h2 {
+    font-size: 1.35rem;
+    line-height: 1.15;
+  }
+
+  .q-ic {
+    width: 36px;
+    height: 36px;
+  }
+
+  .q-ic .ic {
+    font-size: 20px;
+  }
+
+  .panel {
+    width: 100%;
+    max-width: 500px;
+    gap: 10px;
+  }
+
+  .opts {
+    gap: 8px;
+  }
+
+  .opt {
+    min-height: 46px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+  }
+
+  .tick {
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+  }
+
+  .split .spacer {
+    display: none;
+  }
+
+  /* Screen 3: Result */
+  .why {
+    padding: 10px 14px;
+    font-size: 0.8125rem;
+    gap: 8px;
+  }
+
+  .rule {
+    padding: 12px 16px;
+    gap: 6px;
+    border-radius: 16px;
+  }
+
+  .rule h3 {
+    font-size: 1.05rem;
+  }
+
+  .rule p {
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .rule .seg {
+    height: 8px;
+  }
+
+  .rule .chips {
+    font-size: 0.75rem;
+    gap: 4px 10px;
+  }
+
+  .rule .badge {
+    padding: 2px 8px;
+    font-size: 0.6875rem;
+  }
+
+  .result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+    width: 100%;
+  }
+
+  .result-actions .btn {
+    min-height: 42px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+
+  /* Screen 4: Calculator */
+  .split-calc {
+    grid-template-columns: 340px 1fr;
+    align-items: stretch;
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto;
+    gap: var(--space-5);
+  }
+
+  .split-calc .intro {
+    background: var(--fade-card);
+    border: 1.5px solid var(--ink-800);
+    border-radius: 20px;
+    padding: 14px 16px;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .split-calc .intro .top {
+    margin: 0;
+    gap: var(--space-2);
+  }
+
+  .split-calc .intro .back {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .split-calc .intro h2 {
+    font-size: 1.15rem;
+    margin: 0;
+  }
+
+  .split-calc .intro p {
+    font-size: 0.775rem;
+    line-height: 1.35;
+    margin: 0;
+  }
+
+  .split-calc .in {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .split-calc .in span {
+    font-size: 0.75rem;
+    margin-left: 2px;
+  }
+
+  .split-calc .amt {
+    padding: 3px 10px;
+    border-radius: 14px;
+  }
+
+  .split-calc .amt b {
+    font-size: 0.95rem;
+  }
+
+  .split-calc .amt input {
+    font-size: 1.35rem;
+    padding: 0;
+  }
+
+  .split-calc .intro .btn {
+    min-height: 40px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    flex: none;
+  }
+
+  .split-calc .panel {
+    max-width: none;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .split-calc .detail {
+    min-height: auto;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    gap: 8px;
+  }
+
+  .split-calc .detail .empty {
+    background: var(--fade-card);
+    border: 1.5px dashed var(--ink-800);
+    border-radius: 20px;
+    min-height: 280px;
+    padding: 20px;
+  }
+
+  .split-calc .detail-head {
+    background: var(--fade-card);
+    border: 1.5px solid var(--ink-800);
+    border-radius: 16px;
+    padding: 10px 16px;
+    gap: 6px;
+  }
+
+  .split-calc .detail-head h2 {
+    font-size: 1.1rem;
+  }
+
+  .split-calc .detail-head .seg {
+    height: 8px;
+  }
+
+  .split-calc .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  /* When rule has 3 parts (50/30/20), the first card (Needs - 50%) spans 2 columns */
+  .split-calc .breakdown-grid .row:first-child:nth-last-child(3) {
+    grid-column: span 2;
+  }
+
+  .split-calc .breakdown-grid .row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "tile name pct"
+      "val  val  val"
+      "desc desc desc";
+    align-items: center;
+    gap: 4px 8px;
+    padding: 10px 14px;
+    background: var(--ink-900);
+    border: 1.5px solid var(--ink-800);
+    border-radius: 16px;
+    border-top: 1.5px solid var(--ink-800);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .split-calc .breakdown-grid .row:hover {
+    border-color: var(--gray-500);
+    transform: translateY(-2px);
+  }
+
+  .split-calc .breakdown-grid .row .tile {
+    grid-area: tile;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .split-calc .breakdown-grid .row .tile .ic {
+    font-size: 18px;
+  }
+
+  .split-calc .breakdown-grid .row .n {
+    display: contents;
+  }
+
+  .split-calc .breakdown-grid .row .n b {
+    grid-area: name;
+    font-size: 0.9375rem;
+    color: var(--text);
+  }
+
+  .split-calc .breakdown-grid .row .n span {
+    grid-area: desc;
+    font-size: 0.775rem;
+    color: var(--muted);
+    line-height: 1.35;
+    align-self: start;
+    border-top: 1px solid var(--ink-800);
+    padding-top: 6px;
+    margin-top: 2px;
+  }
+
+  .split-calc .breakdown-grid .row .v {
+    display: contents;
+  }
+
+  .split-calc .breakdown-grid .row .v b {
+    grid-area: val;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: left;
+    padding: 2px 0;
+  }
+
+  .split-calc .breakdown-grid .row .v span {
+    grid-area: pct;
+    background: var(--ink-800);
+    color: var(--lime-500);
+    padding: 2px 8px;
+    border-radius: var(--r-pill);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    justify-self: end;
+  }
+
+  .split-calc .spacer {
+    display: none;
+  }
+
+  .split-calc #ch {
+    min-height: 40px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    width: 100%;
+    max-width: none;
+  }
+
+  .split-calc .note {
+    padding-top: 0;
+    font-size: 0.75rem;
+  }
+}
+
+/* Landscape phones: shrink headlines, tighten gaps */
+@media (max-height: 480px) and (orientation: landscape) {
+
+  h1,
+  .intro h2 {
+    font-size: 1.75rem;
+  }
+
+  .top {
+    margin-bottom: var(--space-2);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. Motion
+   -------------------------------------------------------------------------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes check {
+  from {
+    transform: scale(0.9);
+  }
+}
+
+/* Screen enter: stagger children of each panel */
+.enter :is(.welcome, .intro, .panel)>* {
+  animation: rise 0.45s var(--ease) backwards;
+}
+
+.enter :is(.welcome, .intro, .panel)> :nth-child(2) {
+  animation-delay: 0.06s;
+}
+
+.enter :is(.welcome, .intro, .panel)> :nth-child(3) {
+  animation-delay: 0.12s;
+}
+
+.enter :is(.welcome, .intro, .panel)> :nth-child(4) {
+  animation-delay: 0.18s;
+}
+
+.enter :is(.welcome, .intro, .panel)> :nth-child(5) {
+  animation-delay: 0.24s;
+}
+
+.enter .seg i {
+  transform-origin: left;
+  animation: grow 0.8s 0.25s var(--ease) backwards;
+}
+
+.reveal {
+  animation: pop 0.45s var(--ease) backwards;
+}
+
+.reveal .row {
+  animation: rise 0.5s var(--ease) backwards;
+}
+
+.reveal .row:nth-of-type(1) {
+  animation-delay: 0.06s;
+}
+
+.reveal .row:nth-of-type(2) {
+  animation-delay: 0.12s;
+}
+
+.reveal .row:nth-of-type(3) {
+  animation-delay: 0.18s;
+}
+
+.reveal .row:nth-of-type(4) {
+  animation-delay: 0.24s;
+}
+
+/* --------------------------------------------------------------------------
+   13. Accessibility Preferences
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --fade-card: var(--ink-900);
+    --muted: #D0D0D0;
+  }
+
+  .opt,
+  .rule,
+  .detail {
+    border-color: var(--gray-500);
+  }
+}
