@@ -188,7 +188,7 @@ function renderWelcomeScreen() {
   app.innerHTML = `
     <div class="welcome">
       <div class="hero">
-        <img src="logo-lime.png" alt="Budget Rule Finder" class="logo">
+        <img src="logo-lime.png?v=2" alt="Budget Rule Finder" class="logo">
         <h1>Find the budget rule that fits you</h1>
         <p>Answer 5 quick questions. We’ll suggest a rule and show how to split your income.</p>
         <ul class="steps">
