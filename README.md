@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo-lime.png" alt="iBudget Logo" width="96">
-  <h1>iBudget — Budget Rule Finder</h1>
-  <p>Answer 5 quick questions and iBudget suggests a budget rule that fits you, then splits your monthly income (in RM) using that rule.</p>
+  <h1>Aura — Budget Rule Finder</h1>
+  <p>Answer 5 quick questions and Aura suggests a budget rule that fits you, then splits your monthly income (in RM) using that rule.</p>
 </div>
 
 No build step, no dependencies, no backend. Plain HTML, CSS and JavaScript. Your answers stay on your device.
