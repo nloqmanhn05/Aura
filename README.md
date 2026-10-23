@@ -56,4 +56,4 @@ All content lives at the top of `script.js`:
 
 ## Disclaimer
 
-iBudget is a calculator for general guidance, not financial advice.
+Aura is a calculator for general guidance, not financial advice.
