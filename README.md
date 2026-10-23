@@ -1,6 +1,8 @@
-# iBudget — Budget Rule Finder
-
-Answer 5 quick questions and iBudget suggests a budget rule that fits you, then splits your monthly income (in RM) using that rule.
+<div align="center">
+  <img src="logo-lime.png" alt="iBudget Logo" width="96">
+  <h1>iBudget — Budget Rule Finder</h1>
+  <p>Answer 5 quick questions and iBudget suggests a budget rule that fits you, then splits your monthly income (in RM) using that rule.</p>
+</div>
 
 No build step, no dependencies, no backend. Plain HTML, CSS and JavaScript. Your answers stay on your device.
 
@@ -37,8 +39,7 @@ Index.html      Page shell, fonts, loads style.css and script.js
 style.css       Design tokens, components, responsive layout (mobile + desktop)
 script.js       Rules, questions, scoring and screen rendering
 design.md       Design notes
-logo.png        App logo
-logo-lime.png   Logo used on the welcome screen
+logo-lime.png   Brand app logo (lime vector mark)
 ```
 
 ## Customising
