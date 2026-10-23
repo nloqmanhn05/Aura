@@ -95,7 +95,8 @@ const state = {
   i: 0,              // Current question index
   ans: [],           // User answers per question index
   income: 3000,      // Monthly income for calculation
-  sel: "A"           // Selected rule key ("A" or "B")
+  sel: "A",          // Selected rule key ("A" or "B")
+  skipped: false
 };
 
 const app = document.getElementById("app");
@@ -133,9 +134,13 @@ function calculateScore() {
   let scoreB = 0;
 
   state.ans.forEach((selectedOptionIndex, questionIndex) => {
-    const option = QUESTIONS[questionIndex].o[selectedOptionIndex];
-    scoreA += option[1];
-    scoreB += option[2];
+    if (selectedOptionIndex !== undefined) {
+      const option = QUESTIONS[questionIndex]?.o[selectedOptionIndex];
+      if (option) {
+        scoreA += option[1];
+        scoreB += option[2];
+      }
+    }
   });
 
   return { a: scoreA, b: scoreB };
@@ -150,9 +155,22 @@ function getRecommendation() {
 }
 
 /**
+ * Skip quiz questions directly to rule selection
+ */
+function skipQuiz() {
+  state.skipped = true;
+  state.sel = "A";
+  state.screen = "result";
+  render();
+}
+
+/**
  * Generate rationale text explaining the recommendation
  */
 function getExplanation() {
+  if (state.skipped) {
+    return "Questions skipped. Pick a rule below to calculate your income split.";
+  }
   const rec = getRecommendation();
   const needsAnswer = state.ans[0];
   const debtAnswer = state.ans[2];
@@ -197,8 +215,10 @@ function renderWelcomeScreen() {
           <li>${icon("pie_chart")}<span>See your income split</span></li>
         </ul>
       </div>
-      <button class="btn" id="go">Start</button>
-      <div class="note">This app is a calculator. Your answers stay on your device.</div>
+      <div class="welcome-actions">
+        <button class="btn" id="go">Start</button>
+        <div class="note">This app is a calculator. Your answers stay on your device.</div>
+      </div>
     </div>
   `;
 
@@ -206,6 +226,7 @@ function renderWelcomeScreen() {
     state.screen = "quiz";
     state.i = 0;
     state.ans = [];
+    state.skipped = false;
     render();
   };
 }
@@ -257,9 +278,15 @@ function renderQuizScreen() {
   html += `
         </div>
         <div class="spacer"></div>
-        <button class="btn" id="nx"${currentSelection === undefined ? " disabled" : ""}>
-          ${isLastQuestion ? "See my result" : "Next"}
-        </button>
+        <div class="result-actions">
+          <button class="btn" id="nx"${currentSelection === undefined ? " disabled" : ""}>
+            ${isLastQuestion ? "See my result" : "Next"}
+          </button>
+          <div class="skip-row">
+            <button class="btn ghost" id="sk-all">Skip all</button>
+            <button class="btn ghost" id="sk-one">Skip this question</button>
+          </div>
+        </div>
         </section>
       </div>
     </div>
@@ -268,6 +295,16 @@ function renderQuizScreen() {
   app.innerHTML = html;
 
   // Navigation handlers
+  document.getElementById("sk-one").onclick = () => {
+    if (isLastQuestion) {
+      state.sel = getRecommendation();
+      state.screen = "result";
+    } else {
+      state.i++;
+    }
+    render();
+  };
+  document.getElementById("sk-all").onclick = skipQuiz;
   document.getElementById("bk").onclick = () => {
     if (state.i === 0) {
       state.screen = "welcome";
@@ -312,21 +349,21 @@ function renderResultScreen() {
   const alternateKey = recommendedKey === "A" ? "B" : "A";
 
   let html = `
-    <div class="split">
-    <section class="intro">
+    <div class="result-wrap">
       <div class="top">
         <button class="back" id="bk" aria-label="Back">${icon("arrow_back")}</button>
         <h2>Your result</h2>
       </div>
       <div class="why">${icon("lightbulb")}<span>${getExplanation()}</span></div>
-    </section>
-    <section class="panel">
+      <section class="panel">
   `;
 
-  [recommendedKey, alternateKey].forEach(key => {
+  const ruleKeys = state.skipped ? ["A", "B"] : [alternateKey, recommendedKey];
+
+  ruleKeys.forEach(key => {
     const rule = RULES[key];
     const isSelected = state.sel === key;
-    const isRecommended = key === recommendedKey;
+    const isRecommended = !state.skipped && key === recommendedKey;
 
     html += `
       <button class="rule${isSelected ? " on" : ""}" data-k="${key}">
@@ -355,16 +392,23 @@ function renderResultScreen() {
 
   app.innerHTML = html;
 
-  // Back to quiz
+  // Back to quiz or welcome if skipped
   document.getElementById("bk").onclick = () => {
-    state.screen = "quiz";
-    state.i = QUESTIONS.length - 1;
+    if (state.skipped) {
+      state.screen = "welcome";
+    } else {
+      state.screen = "quiz";
+      state.i = QUESTIONS.length - 1;
+    }
     render();
   };
 
   // Retake questions
   document.getElementById("re").onclick = () => {
-    state.screen = "welcome";
+    state.screen = "quiz";
+    state.skipped = false;
+    state.ans = [];
+    state.i = 0;
     render();
   };
 

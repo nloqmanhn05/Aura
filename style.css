@@ -162,7 +162,15 @@ p {
   justify-content: space-between;
 }
 
-.quiz-wrap {
+.welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-tight);
+  width: 100%;
+}
+
+.quiz-wrap,
+.result-wrap {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -224,6 +232,7 @@ p {
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
@@ -261,6 +270,27 @@ p {
   background: transparent;
   color: var(--text);
   border: 1.5px solid var(--ink-600);
+}
+
+.result-actions .btn {
+  min-height: 48px;
+  font-size: clamp(0.8125rem, 2.8vw, 0.9375rem);
+}
+
+.skip-row {
+  display: flex;
+  gap: var(--gap-tight);
+  width: 100%;
+}
+
+.skip-row .btn {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 10px;
+  font-size: clamp(0.8125rem, 2.8vw, 0.9375rem);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 button:focus-visible,
@@ -645,6 +675,15 @@ label.in span {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.amt input::-webkit-outer-spin-button,
+.amt input::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .amt input:focus,
@@ -659,7 +698,7 @@ label.in span {
 }
 
 .detail {
-  min-height: 420px;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   padding: var(--pad-card-v) var(--pad-card-h);
@@ -731,7 +770,8 @@ label.in span {
   justify-content: center;
   text-align: center;
   gap: var(--gap-tight);
-  padding: var(--pad-card-v) var(--pad-card-h);
+  padding: 20px 16px;
+  min-height: 90px;
   color: var(--muted);
 }
 
@@ -806,16 +846,17 @@ label.in span {
   }
 
   .app {
-    max-width: 1140px;
+    max-width: 100%;
+    width: 100%;
     height: 100vh;
     min-height: 100vh;
     padding-top: 24px;
-    padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
+    padding-inline: clamp(24px, 4vw, 48px);
     padding-bottom: clamp(12px, 2.5vh, 24px);
     justify-content: flex-start;
     align-items: stretch;
     overflow-y: auto;
-    margin-inline: auto;
+    margin-inline: 0;
   }
 
   .btn {
@@ -826,43 +867,59 @@ label.in span {
 
   /* Screen 1: Welcome */
   .welcome {
-    max-width: 480px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
-    margin: auto;
-    gap: 16px;
-    justify-content: center;
+    max-width: 100%;
+    margin: 0;
   }
 
   .welcome .hero {
-    gap: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    max-width: 640px;
   }
 
   .welcome .logo {
-    width: 56px;
+    width: 72px;
   }
 
   .welcome h1 {
-    font-size: 1.85rem;
+    font-size: 2.5rem;
     line-height: 1.1;
   }
 
   .welcome .steps {
-    gap: 8px;
+    gap: 12px;
   }
 
   .welcome .steps li {
-    font-size: 0.8125rem;
+    font-size: 0.95rem;
+  }
+
+  .welcome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: auto;
   }
 
   /* Screen 2: Quiz */
   .quiz-wrap {
-    flex: none;
-    max-width: 860px;
+    flex: 1;
+    max-width: 100%;
     width: 100%;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
   }
 
   .quiz-wrap .top {
@@ -870,39 +927,106 @@ label.in span {
     margin: 0;
   }
 
-  .split-quiz {
-    flex: none;
-    display: grid;
-    grid-template-columns: 360px 1fr;
-    align-items: start;
-    gap: var(--space-5);
+  /* Screen 3: Result (1x2 grid for rules on desktop) */
+  .result-wrap {
+    flex: 1;
+    max-width: 100%;
     width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .result-wrap .top {
+    width: 100%;
+    margin: 0;
+  }
+
+  .result-wrap .why {
+    width: 100%;
+  }
+
+  .result-wrap .panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .result-wrap .rule {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px 24px;
+    gap: 10px;
+  }
+
+  .result-wrap .rule h3 {
+    font-size: 1.25rem;
+  }
+
+  .result-wrap .rule p {
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .result-wrap .rule .chips {
+    margin-top: auto;
+    gap: 8px 14px;
+  }
+
+  .result-wrap .spacer {
+    display: none;
+  }
+
+  .result-wrap .result-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin: 8px 0 0 0;
+  }
+
+  .split-quiz,
+  .split.split-quiz {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(360px, 460px) 1fr;
+    align-items: start;
+    gap: clamp(24px, 4vw, 56px);
+    width: 100%;
+    max-width: 100%;
     margin: 0;
   }
 
   .split-quiz .intro {
     position: static;
-    gap: 10px;
+    gap: 14px;
   }
 
   .split-quiz .intro h2 {
-    font-size: 1.35rem;
-    line-height: 1.15;
+    font-size: 1.5rem;
+    line-height: 1.2;
   }
 
   .split-quiz .q-ic {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 
   .split-quiz .q-ic .ic {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .split-quiz .panel {
     width: 100%;
-    max-width: 500px;
-    gap: 10px;
+    max-width: 100%;
+    gap: 12px;
   }
 
   .split-quiz .spacer {
@@ -912,12 +1036,12 @@ label.in span {
   /* General two-panel split */
   .split {
     display: grid;
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: minmax(360px, 460px) 1fr;
     align-items: start;
-    gap: var(--space-5);
-    max-width: 900px;
+    gap: clamp(24px, 4vw, 56px);
+    max-width: 100%;
     width: 100%;
-    margin: 0 auto;
+    margin: 0;
     padding-top: 0;
   }
 
@@ -942,18 +1066,20 @@ label.in span {
 
   .panel {
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
     gap: 10px;
   }
 
   .opts {
     gap: 8px;
+    width: 100%;
   }
 
   .opt {
     min-height: 46px;
     padding: 6px 14px;
     font-size: 0.85rem;
+    width: 100%;
   }
 
   .tick {
@@ -1017,14 +1143,20 @@ label.in span {
     width: 100%;
   }
 
+  .skip-row .btn {
+    min-height: 42px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
+  }
+
   /* Screen 4: Calculator */
   .split-calc {
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: minmax(360px, 460px) 1fr;
     align-items: stretch;
-    max-width: 1040px;
+    max-width: 100%;
     width: 100%;
-    margin: 0 auto;
-    gap: var(--space-5);
+    margin: 0;
+    gap: clamp(24px, 4vw, 56px);
   }
 
   .split-calc .intro {
@@ -1097,11 +1229,11 @@ label.in span {
 
   .split-calc .panel {
     max-width: none;
-    gap: 8px;
+    gap: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: flex-start;
+    height: auto;
   }
 
   .split-calc .detail {
@@ -1115,9 +1247,9 @@ label.in span {
   .split-calc .detail .empty {
     background: var(--fade-card);
     border: 1.5px dashed var(--ink-800);
-    border-radius: 20px;
-    min-height: 280px;
-    padding: 20px;
+    border-radius: 16px;
+    min-height: 110px;
+    padding: 16px;
   }
 
   .split-calc .detail-head {
